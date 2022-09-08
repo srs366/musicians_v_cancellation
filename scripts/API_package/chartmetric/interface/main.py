@@ -1,6 +1,6 @@
-from chartmetric.data_processing.API_calls import spotify_API_call, radioplay_API_call
+from chartmetric.data_processing.API_calls import spotify_API_call, radioplay_API_call, instagram_API_call, tiktok_API_call
 from chartmetric.data_processing.date_calculator import date_calculator
-from chartmetric.data_processing.df_generator import spotify_df_generator, radio_df_generator, merge_spotify_radio
+from chartmetric.data_processing.df_generator import insta_df_generator, spotify_df_generator, radio_df_generator, merge_spotify_radio, tiktok_df_generator
 from chartmetric.data_processing.artist_data import read_artist_data
 
 from chartmetric.data_processing.params import LOCAL_DATA_PATH
@@ -36,13 +36,30 @@ def dataframe_pipeline(df):
                                             , access_key= ACCESS_TOKEN
                                             , artist = artist_id)
 
+        insta_response = instagram_API_call(since_date = since_date
+                                            , until_date= until_date
+                                            , access_key=ACCESS_TOKEN
+                                            , artist=artist_id)
+
+        tiktok_response = tiktok_API_call(since_date = since_date
+                                            , until_date= until_date
+                                            , access_key=ACCESS_TOKEN
+                                            , artist=artist_id)
+
         spotify_df = spotify_df_generator(spotify_response)
 
         radio_df = radio_df_generator(radio_response
                                     , until_date=until_date)
 
+        insta_df = insta_df_generator(insta_response)
+
+        tiktok_df = tiktok_df_generator(tiktok_response)
+
         merged_df = merge_spotify_radio(spotify_df=spotify_df
-                                        , radio_df=radio_df)
+                                        , radio_df=radio_df
+                                        , insta_df=insta_df
+                                        , tiktok_df=tiktok_df
+                                        , artist_id=artist_id)
 
         filepath = f"{LOCAL_DATA_PATH}/API_data/{cancelled}"
 
