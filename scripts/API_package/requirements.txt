@@ -1,0 +1,7 @@
+requests
+pandas
+matplotlib.pyplot
+numpy
+seaborn
+datetime
+dateutil.relativedelta
