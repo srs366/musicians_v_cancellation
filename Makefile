@@ -71,10 +71,10 @@ run_all: run_setup run_df run_pred
 
 #Tweet Run
 run_tweet_setup:
-	python -c 'from twitter_scraping.twitter.interface.main import setup; print(setup())'
+	python -c 'from scripts.twitter_scraping.twitter.interface.main import setup; print(setup())'
 
 run_tweet_df:
-	python -c 'from twitter_scraping.twitter.interface.main import dataframe_pipeline; dataframe_pipeline()'
+	python -c 'from scripts.twitter_scraping.twitter.interface.main import dataframe_pipeline; dataframe_pipeline()'
 
 run_tweet_setup_df:
-	python -c 'from twitter_scraping.twitter.interface.main import dataframe_pipeline, setup; dataframe_pipeline(setup())'
+	python -c 'from scripts.twitter_scraping.twitter.interface.main import dataframe_pipeline, setup; dataframe_pipeline(setup())'
