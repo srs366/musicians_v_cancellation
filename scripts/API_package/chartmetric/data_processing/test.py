@@ -1,0 +1,3 @@
+from chartmetric.data_processing.API_calls import spotify_API_call
+
+print(spotify_API_call(since_date="2020-10-22",until_date="2021-10-22",access_key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mjc4Njk4MiwidGltZXN0YW1wIjoxNjYyNzIxNDIyMTA2LCJpYXQiOjE2NjI3MjE0MjIsImV4cCI6MTY2MjcyNTAyMn0.okoOWWWFtby0OeVIIUVd2PaEhMJO53pqkVIhFOu5LoM",artist="2286",try_number=1))

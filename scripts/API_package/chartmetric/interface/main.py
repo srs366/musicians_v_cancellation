@@ -31,7 +31,8 @@ def dataframe_pipeline(df):
         # Run all the APIs
         spotify_response, radio_response, insta_response, tiktok_response, youtube_response = run_all_APIs(since_date=since_date
                                                                                                            ,until_date=until_date
-                                                                                                           ,artist_id=artist)
+                                                                                                           ,artist_id=artist_id
+                                                                                                           ,try_number=1)
         # Run all the individual dataframes
 
         spotify_df, radio_df, insta_df, tiktok_df, youtube_df = run_all_dataframes(spotify_response=spotify_response
@@ -53,3 +54,7 @@ def dataframe_pipeline(df):
         filepath = f"{LOCAL_DATA_PATH}/API_data/{cancelled}"
 
         merged_df.to_csv(f"{filepath}/{artist}_incedent_{incident_date}.csv")
+
+        print(f"API call completed for {artist}")
+
+    print("API requests done :)")
