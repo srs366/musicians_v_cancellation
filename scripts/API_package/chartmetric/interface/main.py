@@ -1,6 +1,6 @@
-from chartmetric.data_processing.API_calls import spotify_API_call, radioplay_API_call
+from chartmetric.data_processing.API_calls import spotify_API_call, radioplay_API_call, instagram_API_call, tiktok_API_call
 from chartmetric.data_processing.date_calculator import date_calculator
-from chartmetric.data_processing.df_generator import spotify_df_generator, radio_df_generator, merge_spotify_radio
+from chartmetric.data_processing.df_generator import insta_df_generator, spotify_df_generator, radio_df_generator, merge_spotify_radio, tiktok_df_generator
 from chartmetric.data_processing.artist_data import read_artist_data
 
 from chartmetric.data_processing.params import LOCAL_DATA_PATH
@@ -8,21 +8,24 @@ from chartmetric.data_processing.params import ACCESS_TOKEN
 
 
 def setup():
+    """Artist group should equal cancelled or control"""
 
-    df = read_artist_data(base_url = LOCAL_DATA_PATH)
+    df = read_artist_data(base_url = f"{LOCAL_DATA_PATH}")
 
-    reduced_df = df[['ARTIST','CHARTMETRIC ID', 'DATE OF CANCELLATION']]
+    df_reduced = df[['ARTIST','CHARTMETRIC ID', 'DATE OF CANCELLATION','CANCELLED']]
 
-    return reduced_df
+    return df_reduced
 
-def dataframe_pipeline(reduced_df):
+def dataframe_pipeline(df):
+    """Artist group should equal cancelled or control"""
 
-    for artist_id, incident_date, artist in zip(reduced_df['CHARTMETRIC ID']
-                                                , reduced_df['DATE OF CANCELLATION']
-                                                , reduced_df['ARTIST']):
+    for artist_id, incident_date, artist, cancelled in zip(df['CHARTMETRIC ID']
+                                                , df['DATE OF CANCELLATION']
+                                                , df['ARTIST']
+                                                , df['CANCELLED']):
 
         since_date, until_date = date_calculator(incident_date=incident_date
-                                                 ,n_months=6)
+                                                ,n_months=6)
 
         spotify_response = spotify_API_call(since_date = since_date
                                             , until_date= until_date
@@ -33,14 +36,31 @@ def dataframe_pipeline(reduced_df):
                                             , access_key= ACCESS_TOKEN
                                             , artist = artist_id)
 
+        insta_response = instagram_API_call(since_date = since_date
+                                            , until_date= until_date
+                                            , access_key=ACCESS_TOKEN
+                                            , artist=artist_id)
+
+        tiktok_response = tiktok_API_call(since_date = since_date
+                                            , until_date= until_date
+                                            , access_key=ACCESS_TOKEN
+                                            , artist=artist_id)
+
         spotify_df = spotify_df_generator(spotify_response)
 
         radio_df = radio_df_generator(radio_response
-                                      , until_date=until_date)
+                                    , until_date=until_date)
+
+        insta_df = insta_df_generator(insta_response)
+
+        tiktok_df = tiktok_df_generator(tiktok_response)
 
         merged_df = merge_spotify_radio(spotify_df=spotify_df
-                                        , radio_df=radio_df)
+                                        , radio_df=radio_df
+                                        , insta_df=insta_df
+                                        , tiktok_df=tiktok_df
+                                        , artist_id=artist_id)
 
-        filepath = f"{LOCAL_DATA_PATH}/API_data"
+        filepath = f"{LOCAL_DATA_PATH}/API_data/{cancelled}"
 
         merged_df.to_csv(f"{filepath}/{artist}_incedent_{incident_date}.csv")

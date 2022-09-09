@@ -1,3 +1,6 @@
+run_get_token:
+	python -c 'from chartmetric.Chartmetric_API_token.get_token import get_API_token ; print(get_API_token())'
+
 run_setup:
 	python -c 'from chartmetric.interface.main import setup; print(setup())'
 
