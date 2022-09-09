@@ -55,7 +55,7 @@ def tiktok_API_call(since_date,until_date
                        ,access_key
                        ,artist):
 
-    '''Function to return the monthly instagram data in 'json' format'''
+    '''Function to return the monthly tiktok data in 'json' format'''
 
     domain = 'tiktok'
     audienceType = 'followers'
@@ -71,3 +71,24 @@ def tiktok_API_call(since_date,until_date
                 , 'statsType':statsType},).json()
 
     return tiktok_response
+
+def youtube_API_call(since_date,until_date
+                       ,access_key
+                       ,artist):
+
+    '''Function to return the monthly youtube data in 'json' format'''
+
+    domain = 'youtube'
+    audienceType = 'followers'
+    statsType = 'stat'
+
+    youtube_response = requests.get(
+        f"https://api.chartmetric.com/api/artist/{artist}/social-audience-stats"
+        ,headers = {"Authorization":f"Bearer {access_key}"}
+        ,params={'since': since_date
+                , 'until': until_date
+                , 'domain': domain
+                , 'audienceType':audienceType
+                , 'statsType':statsType},).json()
+
+    return youtube_response

@@ -106,12 +106,40 @@ def insta_df_generator(insta_response):
 
     return insta_df
 
-def merge_spotify_radio(spotify_df, radio_df, insta_df, tiktok_df, artist_id):
+def youtube_df_generator(youtube_response):
+    youtube_dict = {'date':[]
+                  ,'followers_youtube':[]
+                  ,'av_post_likes_youtube':[]
+                  ,'av_post_comments_youtube':[]
+                  ,'av_post_views_youtube':[]}
+
+    for response in youtube_response['obj']:
+        youtube_dict['date'].append(response['timestp'][0:10])
+        youtube_dict['followers_youtube'].append(response['followers'])
+        youtube_dict['av_post_likes_youtube'].append(response['avg_likes_per_post'])
+        youtube_dict['av_post_comments_youtube'].append(response['avg_comments_per_post'])
+        youtube_dict['av_post_views_youtube'].append(response['avg_views_per_post'])
+
+
+    # Turn dictionary into dateframe
+    youtube_df = pd.DataFrame.from_dict(youtube_dict)
+    # Create %-change column based on monthly listeners (compared to previous day)
+    youtube_df['follower_pct_change_youtube'] = youtube_df['followers_youtube'].pct_change(periods=1)
+    # Convert date column to datetime
+    youtube_df['date'] = pd.to_datetime(youtube_df['date'])
+    # Convert NAs to 0's
+    youtube_df = youtube_df.fillna(0)
+
+    return youtube_df
+
+def merge_dataframes(spotify_df, radio_df, insta_df, tiktok_df, youtube_df, artist_id):
 
     merged_df = spotify_df.merge(radio_df,how='left',on='date')
 
     merged_df = merged_df.merge(insta_df,how='left',on='date')
     merged_df = merged_df.merge(tiktok_df,how='left',on='date')
+    merged_df = merged_df.merge(youtube_df,how='left',on='date')
+
 
     merged_df['Artist_ID'] = artist_id
 

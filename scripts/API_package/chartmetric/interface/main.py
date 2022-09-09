@@ -1,11 +1,10 @@
-from chartmetric.data_processing.API_calls import spotify_API_call, radioplay_API_call, instagram_API_call, tiktok_API_call
+from chartmetric.data_agg.run_APIs import run_all_APIs
+from chartmetric.data_agg.run_dataframes import run_all_dataframes
 from chartmetric.data_processing.date_calculator import date_calculator
-from chartmetric.data_processing.df_generator import insta_df_generator, spotify_df_generator, radio_df_generator, merge_spotify_radio, tiktok_df_generator
+from chartmetric.data_processing.df_generator import merge_dataframes
 from chartmetric.data_processing.artist_data import read_artist_data
 
 from chartmetric.data_processing.params import LOCAL_DATA_PATH
-from chartmetric.data_processing.params import ACCESS_TOKEN
-
 
 def setup():
     """Artist group should equal cancelled or control"""
@@ -19,48 +18,38 @@ def setup():
 def dataframe_pipeline(df):
     """Artist group should equal cancelled or control"""
 
+    # Loop over each artist from the artist csv
     for artist_id, incident_date, artist, cancelled in zip(df['CHARTMETRIC ID']
                                                 , df['DATE OF CANCELLATION']
                                                 , df['ARTIST']
                                                 , df['CANCELLED']):
 
+        # Calculate date range based on incident date
         since_date, until_date = date_calculator(incident_date=incident_date
                                                 ,n_months=6)
 
-        spotify_response = spotify_API_call(since_date = since_date
-                                            , until_date= until_date
-                                            , access_key=ACCESS_TOKEN
-                                            , artist=artist_id)
+        # Run all the APIs
+        spotify_response, radio_response, insta_response, tiktok_response, youtube_response = run_all_APIs(since_date=since_date
+                                                                                                           ,until_date=until_date
+                                                                                                           ,artist_id=artist)
+        # Run all the individual dataframes
 
-        radio_response = radioplay_API_call(since_date = since_date
-                                            , access_key= ACCESS_TOKEN
-                                            , artist = artist_id)
+        spotify_df, radio_df, insta_df, tiktok_df, youtube_df = run_all_dataframes(spotify_response=spotify_response
+                                                                                   , radio_response=radio_response
+                                                                                   , insta_response=insta_response
+                                                                                   , tiktok_response=tiktok_response
+                                                                                   , youtube_response=youtube_response
+                                                                                   , until_date=until_date)
 
-        insta_response = instagram_API_call(since_date = since_date
-                                            , until_date= until_date
-                                            , access_key=ACCESS_TOKEN
-                                            , artist=artist_id)
-
-        tiktok_response = tiktok_API_call(since_date = since_date
-                                            , until_date= until_date
-                                            , access_key=ACCESS_TOKEN
-                                            , artist=artist_id)
-
-        spotify_df = spotify_df_generator(spotify_response)
-
-        radio_df = radio_df_generator(radio_response
-                                    , until_date=until_date)
-
-        insta_df = insta_df_generator(insta_response)
-
-        tiktok_df = tiktok_df_generator(tiktok_response)
-
-        merged_df = merge_spotify_radio(spotify_df=spotify_df
+        # Merge all the dataframes
+        merged_df = merge_dataframes(spotify_df=spotify_df
                                         , radio_df=radio_df
                                         , insta_df=insta_df
                                         , tiktok_df=tiktok_df
+                                        , youtube_df=youtube_df
                                         , artist_id=artist_id)
 
+        # Save out the dataframes
         filepath = f"{LOCAL_DATA_PATH}/API_data/{cancelled}"
 
         merged_df.to_csv(f"{filepath}/{artist}_incedent_{incident_date}.csv")
