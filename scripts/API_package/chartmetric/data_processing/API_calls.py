@@ -51,7 +51,7 @@ def spotify_API_call(since_date,until_date,access_key,artist,try_number):
 
 def instagram_API_call(since_date,until_date
                        ,access_key
-                       ,artist, try_number):
+                       ,artist, try_number,limit = 100):
 
     '''Function to return the monthly instagram data in 'json' format'''
 
@@ -67,7 +67,8 @@ def instagram_API_call(since_date,until_date
                     , 'until': until_date
                     , 'domain': domain
                     , 'audienceType':audienceType
-                    , 'statsType':statsType},).json()
+                    , 'statsType':statsType
+                    , 'limit':limit},).json()
 
     except(requests.exceptions.ConnectionError, json.decoder.JSONDecodeError):
         print("trying instagram API again")
@@ -75,14 +76,14 @@ def instagram_API_call(since_date,until_date
 
         return instagram_API_call(since_date,until_date
                        ,access_key
-                       ,artist, try_number+1)
+                       ,artist, try_number+1,limit = 100)
 
     else:
         return instagram_response
 
 def tiktok_API_call(since_date,until_date
                        ,access_key
-                       ,artist, try_number):
+                       ,artist, try_number,limit = 100):
 
     '''Function to return the monthly tiktok data in 'json' format'''
 
@@ -98,7 +99,8 @@ def tiktok_API_call(since_date,until_date
                     , 'until': until_date
                     , 'domain': domain
                     , 'audienceType':audienceType
-                    , 'statsType':statsType},).json()
+                    , 'statsType':statsType
+                    , 'limit':limit},).json()
 
     except(requests.exceptions.ConnectionError, json.decoder.JSONDecodeError):
         print("trying tiktok API again")
@@ -106,14 +108,14 @@ def tiktok_API_call(since_date,until_date
 
         return tiktok_API_call(since_date,until_date
                        ,access_key
-                       ,artist, try_number+1)
+                       ,artist, try_number+1,limit = 100)
 
     else:
         return tiktok_response
 
 def youtube_API_call(since_date,until_date
                        ,access_key
-                       ,artist, try_number):
+                       ,artist, try_number,limit = 100):
 
     '''Function to return the monthly youtube data in 'json' format'''
 
@@ -129,7 +131,8 @@ def youtube_API_call(since_date,until_date
                     , 'until': until_date
                     , 'domain': domain
                     , 'audienceType':audienceType
-                    , 'statsType':statsType},).json()
+                    , 'statsType':statsType
+                    , 'limit':limit},).json()
 
     except(requests.exceptions.ConnectionError, json.decoder.JSONDecodeError):
         print("trying youtube API again")
@@ -137,7 +140,7 @@ def youtube_API_call(since_date,until_date
 
         return youtube_API_call(since_date,until_date
                        ,access_key
-                       ,artist, try_number+1)
+                       ,artist, try_number+1,limit = 100)
 
     else:
         return youtube_response
