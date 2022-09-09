@@ -1,5 +1,5 @@
 import snscrape.modules.twitter as sntwitter
-from datetime import datetime,timedelta
+from datetime import datetime,timedelta, date
 from dateutil.relativedelta import relativedelta
 import pandas as pd
 
@@ -17,12 +17,16 @@ def run_the_tweet(keywords,incident_date, n_months, level_fame, language):
     else:
         min_retweets = 0
 
+    begin_date = (dtObj - relativedelta(months=n_months)).date()
     since_date = (dtObj - relativedelta(months=n_months)).date()
 
     until_date = since_date + timedelta(days=1)
     final_date = (dtObj + relativedelta(months=n_months)).date()
 
-    n_days = (final_date-since_date).days
+    if final_date > date.today():
+        final_date = date.today()
+
+    n_days = (final_date-begin_date).days
 
     query = " OR ".join(keywords)
     if len(keywords) == 1:

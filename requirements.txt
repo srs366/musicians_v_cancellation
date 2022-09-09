@@ -8,10 +8,8 @@ wheel>=0.29
 numpy
 pandas
 scikit-learn
-matplotlib.pyplot
 seaborn
 datetime
-dateutil.relativedelta
 snscrape
 nltk
 emot
@@ -19,6 +17,7 @@ emoji
 clean-text
 transformers
 torch
+unidecode
 
 # tests/linter
 black

@@ -1,35 +1,41 @@
-from twitter.data_preprocessing.artist_data import read_artist_data
-from twitter.data_preprocessing.merge import merge_dataframes
-from twitter.data_preprocessing.preprocessing import clean_text
-from twitter.data_preprocessing.scraping import run_the_tweet
-from twitter.data_preprocessing.sentiment import conduct_sentiment_task, get_list_sentiments, get_sentiment_classifications, get_sentiment_scores_df, get_classifications_df
-from twitter.data_preprocessing.params import LOCAL_DATA_PATH
+from scripts.twitter_scraping.twitter.data_preprocessing.artist_data import read_artist_data
+from scripts.twitter_scraping.twitter.data_preprocessing.merge import merge_dataframes
+from scripts.twitter_scraping.twitter.data_preprocessing.preprocessing import clean_text
+from scripts.twitter_scraping.twitter.data_preprocessing.scraping import run_the_tweet
+from scripts.twitter_scraping.twitter.data_preprocessing.sentiment import conduct_sentiment_task, get_list_sentiments, get_sentiment_classifications, get_sentiment_scores_df, get_classifications_df
+from scripts.twitter_scraping.twitter.data_preprocessing.params import LOCAL_DATA_PATH
 import pandas as pd
 
 def setup():
     df = read_artist_data(base_url = f'{LOCAL_DATA_PATH}')
 
-    df_reduced = df[['ARTIST', 'DATE OF CANCELLATION', 'LEVEL OF FAME', 'NICKNAME', 'CANCELLED']]
+    df_reduced = df[['ARTIST', 'CHARTMETRIC ID', 'DATE OF CANCELLATION', 'LEVEL FAME', 'NICKNAME']]
 
     return df_reduced
 
 def dataframe_pipeline(df_reduced):
+    for artist_name, artist_id, artist_date, artist_fame, artist_nicknames in zip(df_reduced['ARTIST'],
+                                                                                    df_reduced['CHARTMETRIC ID'],
+                                                                                    df_reduced['DATE OF CANCELLATION'],
+                                                                                    df_reduced['LEVEL FAME'],
+                                                                                    df_reduced['NICKNAME']):
 
-    for artist_id, artist_date, artist_fame, artist_nicknames, artist_is_cancelled in zip in zip(df_reduced['CHARTMETRIC ID'],
-                                                                                                   df_reduced['DATE OF CANCELLATION'],
-                                                                                                   df_reduced['LEVEL OF FAME'],
-                                                                                                   df_reduced['NICKNAME'],
-                                                                                                   df_reduced['CANCELLED']):
-
+        print(f"Running tweets for {artist_name}")
         artist_tweet_df = run_the_tweet(artist_nicknames, artist_date, 6, artist_fame, 'en')
-        artist_tweet_df['cleaned_text'] = artist_tweet_df.Text.apply(clean_text)
 
-        artist_sentiment_scores = get_list_sentiments(artist_tweet_df, conduct_sentiment_task())
+        # print(f"Cleaning tweets for {artist_name}")
+        # artist_tweet_df['cleaned_text'] = artist_tweet_df.Text.apply(clean_text)
 
-        senscores_df = get_sentiment_scores_df(artist_sentiment_scores)
-        senclass_df = get_classifications_df(get_sentiment_classifications(artist_sentiment_scores))
+        # print(f"Assessing sentiment for tweets relating to {artist_name}")
+        # artist_sentiment_scores = get_list_sentiments(artist_tweet_df, conduct_sentiment_task())
 
-        artist_final_df = merge_dataframes(artist_tweet_df, senscores_df, senclass_df)
+        # print(f"Establishing sentiment scores for tweets relating to {artist_name}")
+        # senscores_df = get_sentiment_scores_df(artist_sentiment_scores)
+        # senclass_df = get_classifications_df(get_sentiment_classifications(artist_sentiment_scores))
 
-        artist_final_df.to_csv(f'{LOCAL_DATA_PATH}/{artist_id}_tweets.csv')
-        return len(artist_final_df)
+        # print(f"Creating a dataframe for tweets relating to {artist_name}")
+        # artist_final_df = merge_dataframes(artist_tweet_df, senscores_df, senclass_df)
+
+        artist_tweet_df.to_csv(f'{LOCAL_DATA_PATH}/{artist_id}_tweets.csv')
+        print(f"{artist_name} CSV HAS BEEN SAVED")
+        # return len(artist_final_df)
