@@ -3,6 +3,7 @@ import string
 import nltk
 import emoji
 from cleantext import clean
+from emot.emo_unicode import UNICODE_EMOJI
 
 def clean_text(tweet):
     #changing to lowercase
