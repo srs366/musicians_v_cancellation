@@ -29,3 +29,23 @@ def date_calculator(incident_date, n_months, n_days=0):
     until_date = str(until_date)
 
     return since_date, until_date
+
+def date_calculator_socials(incident_date, n_days=50):
+
+    '''Same as other date calculator, but is for the socials to take into account for 100
+    day limit on API calls'''
+
+    date_format = '%Y-%m-%d'
+
+    # Convert to datetime and reformat
+    dtObj = datetime.datetime.strptime(incident_date, date_format)
+
+    # Perform date arithmetic
+    since_date = (dtObj - relativedelta(days=n_days)).date()
+    until_date = (dtObj + relativedelta(days=n_days)).date()
+
+    # Convert back to strings
+    since_date = str(since_date)
+    until_date = str(until_date)
+
+    return since_date, until_date
