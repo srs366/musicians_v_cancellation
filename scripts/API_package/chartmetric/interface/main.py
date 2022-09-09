@@ -1,6 +1,6 @@
-from chartmetric.data_agg.run_APIs import run_all_APIs
+from chartmetric.data_agg.run_APIs import run_all_APIs, run_social_APIs, run_spotrad_APIs
 from chartmetric.data_agg.run_dataframes import run_all_dataframes
-from chartmetric.data_processing.date_calculator import date_calculator
+from chartmetric.data_processing.date_calculator import date_calculator, date_calculator_socials
 from chartmetric.data_processing.df_generator import merge_dataframes
 from chartmetric.data_processing.artist_data import read_artist_data
 
@@ -28,11 +28,20 @@ def dataframe_pipeline(df):
         since_date, until_date = date_calculator(incident_date=incident_date
                                                 ,n_months=6)
 
-        # Run all the APIs
-        spotify_response, radio_response, insta_response, tiktok_response, youtube_response = run_all_APIs(since_date=since_date
-                                                                                                           ,until_date=until_date
-                                                                                                           ,artist_id=artist_id
-                                                                                                           ,try_number=1)
+        # Calculate date range for social media accounts
+        since_date_socials, until_date_socials = date_calculator_socials(incident_date=incident_date)
+
+        # Run the APIs for spotify / radio
+        spotify_response, radio_response = run_spotrad_APIs(since_date=since_date
+                                                            ,until_date=until_date
+                                                            ,artist_id=artist_id
+                                                            ,try_number=1)
+
+        # Run the APIs for socials
+        insta_response, tiktok_response, youtube_response = run_social_APIs(since_date=since_date_socials
+                                                                            ,until_date=until_date_socials
+                                                                            ,artist_id=artist_id
+                                                                            ,try_number=1)
 
         # breakpoint()
 

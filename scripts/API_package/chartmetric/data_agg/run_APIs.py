@@ -29,3 +29,36 @@ def run_all_APIs(since_date, until_date, artist_id, try_number=1):
                                         , artist=artist_id, try_number = try_number)
 
     return spotify_response, radio_response, insta_response, tiktok_response, youtube_response
+
+def run_spotrad_APIs(since_date, until_date, artist_id, try_number=1):
+    # Run all the APIs
+    spotify_response = spotify_API_call(since_date = since_date
+                                        , until_date= until_date
+                                        , access_key=ACCESS_TOKEN
+                                        , artist=artist_id, try_number = try_number)
+
+    radio_response = radioplay_API_call(since_date = since_date
+                                        , access_key= ACCESS_TOKEN
+                                        , artist = artist_id, try_number = try_number)
+
+    return spotify_response, radio_response
+
+def run_social_APIs(since_date, until_date, artist_id, try_number=1):
+    # Run all the APIs
+
+    insta_response = instagram_API_call(since_date = since_date
+                                        , until_date= until_date
+                                        , access_key=ACCESS_TOKEN
+                                        , artist=artist_id, try_number = try_number)
+
+    tiktok_response = tiktok_API_call(since_date = since_date
+                                        , until_date= until_date
+                                        , access_key=ACCESS_TOKEN
+                                        , artist=artist_id, try_number = try_number)
+
+    youtube_response = youtube_API_call(since_date = since_date
+                                        , until_date= until_date
+                                        , access_key=ACCESS_TOKEN
+                                        , artist=artist_id, try_number = try_number)
+
+    return insta_response, tiktok_response, youtube_response
