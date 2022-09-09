@@ -4,6 +4,7 @@ from twitter.data_preprocessing.preprocessing import clean_text
 from twitter.data_preprocessing.scraping import run_the_tweet
 from twitter.data_preprocessing.sentiment import conduct_sentiment_task, get_list_sentiments, get_sentiment_classifications, get_sentiment_scores_df, get_classifications_df
 from twitter.data_preprocessing.params import LOCAL_DATA_PATH
+import pandas as pd
 
 def setup():
     df = read_artist_data(base_url = f'{LOCAL_DATA_PATH}')
@@ -14,7 +15,7 @@ def setup():
 
 def dataframe_pipeline(df_reduced):
 
-    for artist_name, artist_date, artist_fame, artist_nicknames, artist_is_cancelled in zip in zip(df_reduced['ARTIST'],
+    for artist_id, artist_date, artist_fame, artist_nicknames, artist_is_cancelled in zip in zip(df_reduced['CHARTMETRIC ID'],
                                                                                                    df_reduced['DATE OF CANCELLATION'],
                                                                                                    df_reduced['LEVEL OF FAME'],
                                                                                                    df_reduced['NICKNAME'],
@@ -30,4 +31,5 @@ def dataframe_pipeline(df_reduced):
 
         artist_final_df = merge_dataframes(artist_tweet_df, senscores_df, senclass_df)
 
-        return artist_final_df
+        artist_final_df.to_csv(f'{LOCAL_DATA_PATH}/{artist_id}_tweets.csv')
+        return len(artist_final_df)
