@@ -1,6 +1,6 @@
 from chartmetric.data_agg.run_APIs import run_all_APIs, run_social_APIs, run_spotrad_APIs
 from chartmetric.data_agg.run_dataframes import run_all_dataframes
-from chartmetric.data_processing.date_calculator import date_calculator, date_calculator_socials
+from chartmetric.data_processing.date_calculator import date_calculator, date_calculator_socials, date_calculator_socials2
 from chartmetric.data_processing.df_generator import merge_dataframes
 from chartmetric.data_processing.artist_data import read_artist_data
 
@@ -31,7 +31,11 @@ def dataframe_pipeline(df):
         # Calculate date range for social media accounts
         since_date_socials, until_date_socials = date_calculator_socials(incident_date=incident_date)
 
-        # Run the APIs for spotify / radio
+        # Calculate 100 days pre and post the since & until date to account for chartmetric data limit
+        # date_pre1, date_pre2, date_post1, date_post2 = date_calculator_socials2(since_date = since_date_socials
+                                                                                # ,until_date = until_date_socials)
+
+        # Run the main APIs for spotify / radio
         spotify_response, radio_response = run_spotrad_APIs(since_date=since_date
                                                             ,until_date=until_date
                                                             ,artist_id=artist_id
@@ -43,7 +47,17 @@ def dataframe_pipeline(df):
                                                                             ,artist_id=artist_id
                                                                             ,try_number=1)
 
-        # breakpoint()
+        # # Run the pre/post APIs for socials
+
+        # pre_insta, pre_tiktok, pre_youtube = run_social_APIs(since_date=date_pre2
+        #                                                     ,until_date=date_pre1
+        #                                                     ,artist_id=artist_id
+        #                                                     ,try_number=1)
+
+        # post_insta, post_tiktok, post_youtube = run_social_APIs(since_date=date_post1
+        #                                                         ,until_date=date_post2
+        #                                                         ,artist_id=artist_id
+        #                                                         ,try_number=1)
 
         # Run all the individual dataframes
 
