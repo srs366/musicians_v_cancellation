@@ -12,7 +12,7 @@ def conduct_sentiment_task():
 
 def get_list_sentiments(df_cleanedtext, sentiment_task):
     list_dict_sentiments = []
-    for tweet in df_cleanedtext.cleaned_tweet:
+    for tweet in df_cleanedtext.cleaned_text:
         sentiment_task_result = sentiment_task(tweet)[0]
         tweet_sentiment = {}
         for label in sentiment_task_result:
@@ -34,7 +34,7 @@ def get_sentiment_classifications(list_dict_sentiments):
             sentiment_classifications.append('Positive')
         elif (list_sentiment['Negative'] > list_sentiment['Positive']) and (list_sentiment['Negative'] > (list_sentiment['Neutral'] + list_sentiment['Positive'])):
             sentiment_classifications.append('Extremely Negative')
-        elif (list_sentiment['Negative'] > list_sentiment['Positive']) and (list_sentiment['Negative'] < (list_sentiment['Neutral'] + list_sentiment['Negative'])):
+        elif (list_sentiment['Negative'] > list_sentiment['Positive']) and (list_sentiment['Negative'] < (list_sentiment['Neutral'] + list_sentiment['Positive'])):
             sentiment_classifications.append('Negative')
         else:
             sentiment_classifications.append('Neutral')
