@@ -5,7 +5,9 @@ from pandas.api.types import CategoricalDtype
 def read_twitter_data(base_url,artist_id,artist_type):
 
     # Read in the data
-    df = pd.read_csv(f'{base_url}/Tweet_data/{artist_type}/{artist_id}_tweets.csv')
+    # df = pd.read_csv(f'{base_url}/Tweet_data/{artist_type}/{artist_id}_tweets.csv')
+
+    df = pd.read_csv(f'{base_url}/Tweet_data/Catriona_tweets_scraped/finaldfs/{artist_id}_finaldf.csv')
 
     return df
 
@@ -15,7 +17,12 @@ def clean_twitter_data(df):
 
     # breakpoint()
 
-    df_trimmed = df.drop(columns=['Unnamed: 0','Text','Username','cleaned_text','Negative','Neutral','Positive'])
+    # df_trimmed = df.drop(columns=['Unnamed: 0','Text','Username','cleaned_text','Negative','Neutral','Positive'])
+
+    df_trimmed = df.drop(columns=['Unnamed: 0','Text','Username','cleaned_text'
+                                  ,'Negative_x','Neutral_x','Positive_x'
+                                  ,'Negative_y','Neutral_y','Positive_y'])
+
     df_trimmed['Datetime'] = pd.to_datetime(df_trimmed['Datetime'],errors='coerce')
 
     df_trimmed = df_trimmed.dropna()

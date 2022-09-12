@@ -5,6 +5,7 @@ from scripts.Merging_Data.Preprocessing.artist_data import read_artist_data
 from scripts.Merging_Data.Preprocessing.chartmetric_clean import read_chartmetric_data, clean_chartmetric_data
 from scripts.Merging_Data.Preprocessing.twitter_clean import read_twitter_data, clean_twitter_data
 from scripts.Merging_Data.Preprocessing.merge_files import merge_dataframes
+from scripts.Merging_Data.Charting.make_charts import generate_chart
 
 
 def setup():
@@ -48,3 +49,10 @@ def dataframe_pipeline(df):
         filepath = f"{LOCAL_DATA_PATH}/Merged_data/{cancelled}"
 
         merged_df.to_csv(f"{filepath}/{artist_id}_merged_data.csv")
+
+        generate_chart(df=merged_df
+                       , artist=artist
+                       , date=incident_date
+                       , artist_id=artist_id
+                       , base_url=LOCAL_DATA_PATH
+                       , artist_type=cancelled)
