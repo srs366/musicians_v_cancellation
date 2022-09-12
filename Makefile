@@ -78,3 +78,9 @@ run_tweet_df:
 
 run_tweet_setup_df:
 	python -c 'from scripts.twitter_scraping.twitter.interface.main import dataframe_pipeline, setup; dataframe_pipeline(setup())'
+
+
+#Merging dataframes
+
+run_merging_data:
+	python -c 'from scripts.Merging_Data.Interface.main import dataframe_pipeline, setup; dataframe_pipeline(setup())'
