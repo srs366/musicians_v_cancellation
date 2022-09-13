@@ -1,10 +1,11 @@
 from distutils.command.clean import clean
+from email.mime import base
 from scripts.Merging_Data.Preprocessing.params import LOCAL_DATA_PATH
 
 from scripts.Merging_Data.Preprocessing.artist_data import read_artist_data
 from scripts.Merging_Data.Preprocessing.chartmetric_clean import read_chartmetric_data, clean_chartmetric_data
 from scripts.Merging_Data.Preprocessing.twitter_clean import read_twitter_data, clean_twitter_data
-from scripts.Merging_Data.Preprocessing.merge_files import merge_dataframes
+from scripts.Merging_Data.Preprocessing.merge_files import merge_dataframes, add_release_data
 from scripts.Merging_Data.Charting.make_charts import generate_chart
 
 
@@ -43,6 +44,10 @@ def dataframe_pipeline(df):
 
         merged_df = merge_dataframes(chartmetric_df=chartmetric_cleaned
                                      , twitter_df=twitter_cleaned)
+
+        merged_df = add_release_data(df = merged_df
+                                     , artist_id = artist_id
+                                     , base_url=LOCAL_DATA_PATH)
 
         # breakpoint()
 

@@ -7,15 +7,17 @@ def generate_chart(df, artist, artist_id, base_url, artist_type, date):
     fig.suptitle(f'Charts for {artist}: incident date {date}')
 
     axes[0].set_title('Spotify monthly listens vs Tweets')
-    sns.lineplot(data=df.monthly_listeners, color="b", ax=axes[0])
+    sns.lineplot(data=df.monthly_listeners, color="g", ax=axes[0])
+    sns.lineplot(data=df.monthly_spins, color="b", ax=axes[0])
+
     ax2 = axes[0].twinx()
     sns.lineplot(data=df.TweetSentiment_Negative, color="r", ax=ax2)
     # sns.lineplot(data=df.TweetSentiment_Positive, color="g", ax=ax2)
 
-    axes[1].set_title('Radio monthly plays vs Tweets')
-    sns.lineplot(data=df.monthly_spins, color="b", ax=axes[1])
-    ax3 = axes[1].twinx()
-    sns.lineplot(data=df.TweetSentiment_Negative, color="r", ax=ax3)
+    # axes[1].set_title('Radio monthly plays vs Tweets')
+    # sns.lineplot(data=df.monthly_spins, color="b", ax=axes[1])
+    # ax3 = axes[1].twinx()
+    # sns.lineplot(data=df.TweetSentiment_Negative, color="r", ax=ax3)
     # sns.lineplot(data=df.TweetSentiment_Positive, color="g", ax=ax3)
 
     # axes[2].set_title('Av post views (insta)')
