@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn.preprocessing import StandardScaler
 
 def read_chartmetric_data(base_url, artist_id, incident_date, artist_type):
 
@@ -16,5 +17,9 @@ def clean_chartmetric_data(df):
     chartmetric_trim['date'] = pd.to_datetime(chartmetric_trim['date'])
 
     chartmetric_df = chartmetric_trim.set_index('date')
+
+    # chartmetric_scaler = StandardScaler()
+
+    # chartmetric_df = chartmetric_scaler.fit_transform(chartmetric_df)
 
     return chartmetric_df
