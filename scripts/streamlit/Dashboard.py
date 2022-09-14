@@ -1,5 +1,4 @@
 from textwrap import fill
-from turtle import width
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -19,14 +18,11 @@ from datetime import datetime
 #set page config
 st.set_page_config(page_title="Streamlit Dashboard", page_icon=":tada:", layout="wide", initial_sidebar_state="expanded")
 
-
-
-
 #create a title and center it
 st.title("Cancel Culture Dashboard")
 st.markdown("This is a dashboard created using Streamlit")
 #st.subheader("Cancel culture is the practice of withdrawing support for (cancelling) public figures and companies after they have done or said something considered objectionable or offensive.")
-    
+
 st.markdown(
 """
 <style>
@@ -49,9 +45,9 @@ if design1 == 'Individual Artist':
     selectbox1 = st.selectbox("Select a musician", [''] + list(js.keys()))
     if selectbox1 != '':
         prof_pic=js[selectbox1]["Image"] #show image
-        #show the details 
-        text= f'''&emsp;&emsp;&emsp;<b>Name:</b> &ensp;{selectbox1}  
-        <br>&emsp;&emsp;&emsp;<b>Gender:</b> &ensp;{js[selectbox1]["Gender"]}  
+        #show the details
+        text= f'''&emsp;&emsp;&emsp;<b>Name:</b> &ensp;{selectbox1}
+        <br>&emsp;&emsp;&emsp;<b>Gender:</b> &ensp;{js[selectbox1]["Gender"]}
         <br>&emsp;&emsp;&emsp;<b>Race:</b> &ensp;{js[selectbox1]["Race"]}
         <br>&emsp;&emsp;&emsp;<b>Age:</b> &ensp;{(int(js[selectbox1]['Age']))}
         <br>&emsp;&emsp;&emsp;<b>Nationality:</b> &ensp;{js[selectbox1]['Nationality']}
@@ -59,7 +55,7 @@ if design1 == 'Individual Artist':
         <br>&emsp;&emsp;&emsp;<b>Genre:</b> &ensp;{js[selectbox1]['Genre']}
         <br>&emsp;&emsp;&emsp;<b>Cancellation Date:</b> <br>&emsp;&emsp;&emsp;{datetime.strptime(js[selectbox1]['Date of Cancellation'], '%Y-%m-%d').strftime('%d %B %Y')}
         <br>&emsp;&emsp;&emsp;<b>Category:</b> &ensp;{js[selectbox1]["cancellation category"]}'''
-        
+
         st.markdown(
         """
         <style>
@@ -123,7 +119,7 @@ if design1 == 'Individual Artist':
         fig_spot.update_yaxes(title_text="Negative tweet",secondary_y=True,showgrid=False)
         fig_spot.update_layout(plot_bgcolor = "#FFF4F3")
         st.plotly_chart(fig_spot, use_container_width=True,print_grid=False)
-        
+
 
         # fig_radio =make_subplots(specs=[[{"secondary_y":True}]],column_widths=[600])
         # fig_radio.add_trace(go.Scatter(x=data.index, y=data.monthly_spins, mode='lines',line=dict(color='blue',width=2),name='Radio'),secondary_y=False)
@@ -149,9 +145,9 @@ if design1=='Compare Artists':
         selectbox1 = st.selectbox("Select a musician", [''] + list(js.keys()))
         if selectbox1 != '':
             prof_pic=js[selectbox1]["Image"] #show image
-            #show the details 
-            text= f'''&emsp;&emsp;&emsp;<b>Name:</b> &ensp;{selectbox1}  
-            <br>&emsp;&emsp;&emsp;<b>Gender:</b> &ensp;{js[selectbox1]["Gender"]}  
+            #show the details
+            text= f'''&emsp;&emsp;&emsp;<b>Name:</b> &ensp;{selectbox1}
+            <br>&emsp;&emsp;&emsp;<b>Gender:</b> &ensp;{js[selectbox1]["Gender"]}
             <br>&emsp;&emsp;&emsp;<b>Race:</b> &ensp;{js[selectbox1]["Race"]}
             <br>&emsp;&emsp;&emsp;<b>Age:</b> &ensp;{(int(js[selectbox1]['Age']))}
             <br>&emsp;&emsp;&emsp;<b>Nationality:</b> &ensp;{js[selectbox1]['Nationality']}
@@ -159,7 +155,7 @@ if design1=='Compare Artists':
             <br>&emsp;&emsp;&emsp;<b>Genre:</b> &ensp;{js[selectbox1]['Genre']}
             <br>&emsp;&emsp;&emsp;<b>Cancellation Date:</b> <br>&emsp;&emsp;&emsp;{datetime.strptime(js[selectbox1]['Date of Cancellation'], '%Y-%m-%d').strftime('%d %B %Y')}
             <br>&emsp;&emsp;&emsp;<b>Category:</b> &ensp;{js[selectbox1]["cancellation category"]}'''
-            
+
             st.markdown(
             """
             <style>
@@ -195,14 +191,14 @@ if design1=='Compare Artists':
             )
 
             reason = f'<b>Reason for Cancellation:</b> &ensp;{js[selectbox1]["Reason for cancellation"]}'
-            
+
             st.markdown(f'''
             <div class='reason'>
                 <p class="logo-text">{reason}</p>
             </div>
             ''',
             unsafe_allow_html=True)
-            
+
             #PLOTLY
             data = pd.read_csv(f'{js[selectbox1]["CHARTMETRIC ID"]}_merged_data.csv', parse_dates=[0], index_col=0)
             data_album = data[data["New_Music"]==1]
@@ -210,7 +206,7 @@ if design1=='Compare Artists':
             fig_col1_spot =make_subplots(specs=[[{"secondary_y":True}]],column_widths=[600],subplot_titles=[f"{selectbox1}'s Cancellation Data"])
             fig_col1_spot.add_trace(go.Scatter(x=data.index, y=data.monthly_listeners, mode='lines',line=dict(color='green',width=2),name='Spotify'),secondary_y=False)
             fig_col1_spot.add_trace(go.Scatter(x=data.index, y=data.TweetSentiment_Negative, mode='none',line=dict(color='red',width=1),name='Negative Tweet',fill='tonexty'),secondary_y=True)
-            #radio line 
+            #radio line
             fig_col1_spot.add_trace(go.Scatter(x=data.index, y=data.monthly_spins, mode='lines',line=dict(color='#1599eb',width=1),name='Radio'),secondary_y=False)
             fig_col1_spot.add_trace(go.Scatter(x=data_album.index, y=data_album.monthly_listeners, mode='markers',marker_size=7,marker_line_color="midnight blue",marker_color="lightskyblue",marker_line_width=2,name='Album Release'),secondary_y=False)
             fig_col1_spot.add_trace(go.Scatter(x=data_tv.index, y=data_tv.monthly_listeners, mode='markers',marker_symbol="x",marker_size=10,marker_line_color="midnight blue",marker_color="red",marker_line_width=2,name='Tv Appearence'),secondary_y=False)
@@ -221,7 +217,7 @@ if design1=='Compare Artists':
             fig_col1_spot.update_yaxes(title_text="Negative tweet",secondary_y=True,showgrid=False)
             fig_col1_spot.update_layout(plot_bgcolor = "#FFF4F3")
             col1.plotly_chart(fig_col1_spot, use_container_width=False,print_grid=False)
-            
+
 
             # fig_col1_radio =make_subplots(specs=[[{"secondary_y":True}]],column_widths=[600])
             # fig_col1_radio.add_trace(go.Scatter(x=data.index, y=data.monthly_spins, mode='lines',line=dict(color='blue',width=2),name='Radio'),secondary_y=False)
@@ -237,18 +233,18 @@ if design1=='Compare Artists':
             # col1.plotly_chart(fig_col1_radio, use_container_width=False,print_grid=False)
 
 
-            
-            
+
+
     with col2:
         #create a selectbox
         selectbox2 = st.selectbox("Select a musician", [''] + list(js.keys()),key = "one")
         if selectbox2 != '':
             prof_pic=js[selectbox2]["Image"]
 
-            #show the full name 
+            #show the full name
             #st.image(prof_pic,width=200)
-            text= f'''&emsp;&emsp;&emsp;<b>Name:</b> &ensp;{selectbox2}  
-            <br>&emsp;&emsp;&emsp;<b>Gender:</b> &ensp;{js[selectbox2]["Gender"]}  
+            text= f'''&emsp;&emsp;&emsp;<b>Name:</b> &ensp;{selectbox2}
+            <br>&emsp;&emsp;&emsp;<b>Gender:</b> &ensp;{js[selectbox2]["Gender"]}
             <br>&emsp;&emsp;&emsp;<b>Race:</b> &ensp;{js[selectbox2]["Race"]}
             <br>&emsp;&emsp;&emsp;<b>Age:</b> &ensp;{(int(js[selectbox1]['Age']))}
             <br>&emsp;&emsp;&emsp;<b>Nationality:</b> &ensp;{js[selectbox2]["Nationality"]}
@@ -256,7 +252,7 @@ if design1=='Compare Artists':
             <br>&emsp;&emsp;&emsp;<b>Genre:</b> &ensp;{js[selectbox2]["Genre"]}
             <br>&emsp;&emsp;&emsp;<b>Cancellation Date:</b> <br>&emsp;&emsp;&emsp;{datetime.strptime(js[selectbox1]['Date of Cancellation'], '%Y-%m-%d').strftime('%d %B %Y')}
             <br>&emsp;&emsp;&emsp;<b>Category:</b> &ensp;{js[selectbox2]["cancellation category"]}'''
-            
+
             st.markdown(
             """
             <style>
@@ -303,7 +299,7 @@ if design1=='Compare Artists':
             data_album = data[data["New_Music"]==1]
             data_tv = data[data["TV_Show"]==1]
             fig_col2_spot =make_subplots(specs=[[{"secondary_y":True}]],column_widths=[600],subplot_titles=[f"{selectbox2}'s Cancellation Data"])
-            
+
             fig_col2_spot.add_trace(go.Scatter(x=data.index, y=data.monthly_listeners, mode='lines',line=dict(color='green',width=2),name='Spotify'),secondary_y=False)
             fig_col2_spot.add_trace(go.Scatter(x=data.index, y=data.TweetSentiment_Negative, mode='none',line=dict(color='red',width=1),name='Negative Tweet',fill='tonexty'),secondary_y=True)
             # radio line
@@ -318,7 +314,7 @@ if design1=='Compare Artists':
             fig_col2_spot.update_yaxes(title_text="Negative tweet",secondary_y=True,showgrid=False)
             fig_col2_spot.update_layout(plot_bgcolor = "#FFF4F3")
             col2.plotly_chart(fig_col2_spot, use_container_width=False)
-            
+
 
             # fig_col2_radio =make_subplots(specs=[[{"secondary_y":True}]],column_widths=[600])
             # fig_col2_radio.add_trace(go.Scatter(x=data.index, y=data.monthly_spins, mode='lines',line=dict(color='blue',width=2),name='Radio'),secondary_y=False)
@@ -332,7 +328,3 @@ if design1=='Compare Artists':
             # fig_col2_radio.update_yaxes(title_text="Negative tweet",secondary_y=True,showgrid=False)
             # fig_col2_radio.update_layout(plot_bgcolor = "#FFF4F3")
             # col2.plotly_chart(fig_col2_radio, use_container_width=False)
-
-
-
-
