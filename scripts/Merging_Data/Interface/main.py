@@ -14,12 +14,16 @@ def setup():
 
     df = read_artist_data(base_url = f"{LOCAL_DATA_PATH}")
 
-    df_reduced = df[['ARTIST','CHARTMETRIC ID', 'DATE OF CANCELLATION','CANCELLED']]
+    breakpoint()
+
+    df_reduced = df[['ARTIST','CHARTMETRIC ID', 'DATE OF CANCELLATION','CANCELLED','RACE']]
 
     return df_reduced
 
 def dataframe_pipeline(df):
     """Artist group should equal cancelled or control"""
+
+    breakpoint()
 
     # Loop over each artist from the artist csv
     for artist_id, incident_date, artist, cancelled in zip(df['CHARTMETRIC ID']
@@ -61,3 +65,19 @@ def dataframe_pipeline(df):
                        , artist_id=artist_id
                        , base_url=LOCAL_DATA_PATH
                        , artist_type=cancelled)
+
+
+def neg_tweet_data(df):
+
+    tweets_black_pre =
+    tweets_black_post =
+
+    tweets_white_pre =
+    tweets_white_post =
+
+
+    for artist_id, incident_date, artist, cancelled in zip(df['CHARTMETRIC ID']
+                                                , df['DATE OF CANCELLATION']
+                                                , df['ARTIST']
+                                                , df['CANCELLED']
+                                                , df['RACE']):
