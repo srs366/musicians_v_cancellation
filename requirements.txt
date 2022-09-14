@@ -40,4 +40,5 @@ memoized-property
 termcolor
 
 # streamlit
+plotly
 plotly-express
