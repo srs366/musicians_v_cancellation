@@ -22,7 +22,7 @@ st.set_page_config(page_title="Streamlit Dashboard", page_icon=":tada:", layout=
 st.title("Cancel Culture Dashboard")
 st.markdown("This is a dashboard created using Streamlit")
 #st.subheader("Cancel culture is the practice of withdrawing support for (cancelling) public figures and companies after they have done or said something considered objectionable or offensive.")
-
+# test
 st.markdown(
 """
 <style>
@@ -44,7 +44,7 @@ if design1 == 'Individual Artist':
     response = requests.get(url)
 
     # js = json.load(open('Artist_data', encoding='utf-8'))
-    js = json.loads(response.txt)
+    js = json.loads(response.text)
     df=pd.DataFrame(js)
     #create a selectbox
     selectbox1 = st.selectbox("Select a musician", [''] + list(js.keys()))
@@ -141,7 +141,7 @@ if design1 == 'Individual Artist':
 
 if design1=='Compare Artists':
     # js = json.load(open('Artist_data.json', encoding='utf-8'))
-    js = json.loads(response.txt)
+    js = json.loads(response.text)
     js
     df=pd.DataFrame(js)
     #create dropdown menu in 2 columns
