@@ -4,6 +4,10 @@ setuptools>=26
 twine
 wheel>=0.29
 
+# streamlit
+plotly
+plotly-express
+
 # data science
 numpy
 pandas
@@ -38,7 +42,3 @@ six>=1.14
 joblib
 memoized-property
 termcolor
-
-# streamlit
-plotly
-plotly-express
