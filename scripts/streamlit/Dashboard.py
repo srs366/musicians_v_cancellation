@@ -39,7 +39,12 @@ unsafe_allow_html=True
 design1 = st.select_slider('', options=['Individual Artist', 'Compare Artists'])
 
 if design1 == 'Individual Artist':
-    js = json.load(open('Artist_data', encoding='utf-8'))
+    url = 'https://raw.githubusercontent.com/srs366/musicians_v_cancellation/master/scripts/streamlit/Artist_data.json'
+
+    response = requests.get(url)
+
+    # js = json.load(open('Artist_data', encoding='utf-8'))
+    js = json.loads(response.txt)
     df=pd.DataFrame(js)
     #create a selectbox
     selectbox1 = st.selectbox("Select a musician", [''] + list(js.keys()))
@@ -135,7 +140,9 @@ if design1 == 'Individual Artist':
         # st.plotly_chart(fig_radio, use_container_width=False,print_grid=False)
 
 if design1=='Compare Artists':
-    js = json.load(open('Artist_data.json', encoding='utf-8'))
+    # js = json.load(open('Artist_data.json', encoding='utf-8'))
+    js = json.loads(response.txt)
+    js
     df=pd.DataFrame(js)
     #create dropdown menu in 2 columns
     col1, col2 = st.columns(2)
