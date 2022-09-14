@@ -39,7 +39,7 @@ unsafe_allow_html=True
 design1 = st.select_slider('', options=['Individual Artist', 'Compare Artists'])
 
 if design1 == 'Individual Artist':
-    js = json.load(open('Artist_data.json', encoding='utf-8'))
+    js = json.load(open('Artist_data', encoding='utf-8'))
     df=pd.DataFrame(js)
     #create a selectbox
     selectbox1 = st.selectbox("Select a musician", [''] + list(js.keys()))
