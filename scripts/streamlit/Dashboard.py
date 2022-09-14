@@ -22,7 +22,7 @@ st.set_page_config(page_title="Streamlit Dashboard", page_icon=":tada:", layout=
 st.title("Cancel Culture Dashboard")
 st.markdown("This is a dashboard created using Streamlit")
 #st.subheader("Cancel culture is the practice of withdrawing support for (cancelling) public figures and companies after they have done or said something considered objectionable or offensive.")
-
+# test
 st.markdown(
 """
 <style>
