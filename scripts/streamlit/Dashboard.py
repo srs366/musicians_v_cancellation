@@ -1,30 +1,20 @@
 from textwrap import fill
 import streamlit as st
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-import plotly.express as px
-import os
 import json
 import requests
-import plotly.figure_factory as ff
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-import base64
 from datetime import datetime
 import pathlib
 from PIL import Image
-#test again
 
 #set page config
 st.set_page_config(page_title="Streamlit Dashboard", page_icon=":tada:", layout="wide", initial_sidebar_state="expanded")
 
 #create a title and center it
 st.title("Musicians vs Cancel Culture")
-# st.markdown("This is a dashboard created using Streamlit")
-#st.subheader("Cancel culture is the practice of withdrawing support for (cancelling) public figures and companies after they have done or said something considered objectionable or offensive.")
-# test
+
 st.markdown(
 """
 <style>
@@ -45,7 +35,6 @@ if design1 == 'Individual Artist':
 
     response = requests.get(url)
 
-    # js = json.load(open('Artist_data', encoding='utf-8'))
     js = json.loads(response.text)
 
     st.markdown('<style>div.row-widget.stRadio > div{flex-direction:row;justify-content: center;} </style>', unsafe_allow_html=True)
@@ -68,9 +57,8 @@ if design1 == 'Individual Artist':
             if js_gender[key]["cancellation category"] == selected_reason:
                 js[key] = js_gender[key]
 
-    # df=pd.DataFrame(js)
     #create a selectbox
-    selectbox1 = st.selectbox("Select a musician", [''] + list(js.keys()))
+    selectbox1 = st.selectbox("Select a musician", [''] + sorted(list(js.keys())))
     if selectbox1 != '':
         prof_pic=js[selectbox1]["Image"] #show image
         #show the details
@@ -152,7 +140,6 @@ if design1 == 'Individual Artist':
         st.plotly_chart(fig_spot, use_container_width=True,print_grid=False)
 
         #opening the image
-        # base_path = pathlib.Path(__file__).resolve().parent
         image_path = f'{js[selectbox1]["CHARTMETRIC ID"]}_masked.png'
         full_path = base_path.joinpath(base_path, "Images", image_path)
         image = Image.open(full_path)
@@ -160,27 +147,8 @@ if design1 == 'Individual Artist':
         #displaying the image on streamlit app
         st.image(image, caption=f"{selectbox1}'s", width=800)
 
-
-        # fig_radio =make_subplots(specs=[[{"secondary_y":True}]],column_widths=[600])
-        # fig_radio.add_trace(go.Scatter(x=data.index, y=data.monthly_spins, mode='lines',line=dict(color='blue',width=2),name='Radio'),secondary_y=False)
-        # fig_radio.add_trace(go.Scatter(x=data.index, y=data.TweetSentiment_Negative, mode='none',line=dict(color='red',width=1),name='Negative Tweet',fill='tonexty'),secondary_y=True)
-        # fig_radio.add_trace(go.Scatter(x=data_album.index, y=data_album.monthly_spins, mode='markers',marker_size=7,marker_line_color="midnight blue",marker_color="lightskyblue",marker_line_width=2,name='Music Release'),secondary_y=False)
-        # fig_radio.add_trace(go.Scatter(x=data_tv.index, y=data_tv.monthly_spins, mode='markers',marker_symbol="x",marker_size=7,marker_line_color="midnight blue",marker_color="red",marker_line_width=2,name='Tv Appearence'),secondary_y=False)
-
-        # fig_radio.add_vline(x=datetime.strptime(js[selectbox1]["Date of Cancellation"],"%Y-%m-%d"), line_width=3, line_color="red")
-        # fig_radio.update_xaxes(showgrid=False)
-        # fig_radio.update_yaxes(title_text="Monthly Spins",secondary_y=False, showgrid=False)
-        # fig_radio.update_yaxes(title_text="Negative tweet",secondary_y=True, showgrid=False)
-        # fig_radio.update_layout(plot_bgcolor = "#FFF4F3")
-        # st.plotly_chart(fig_radio, use_container_width=False,print_grid=False)
-
 if design1=='Compare Artists':
-    # js = json.load(open('Artist_data.json', encoding='utf-8'))
 
-
-    # js
-
-    # df=pd.DataFrame(js)
     #create dropdown menu in 2 columns
     col1, col2 = st.columns(2)
 
@@ -211,7 +179,7 @@ if design1=='Compare Artists':
                     js[key] = js_gender[key]
 
         #create a selectbox
-        selectbox1 = st.selectbox("Select a musician", [''] + list(js.keys()))
+        selectbox1 = st.selectbox("Select a musician", [''] + sorted(list(js.keys())))
         if selectbox1 != '':
             prof_pic=js[selectbox1]["Image"] #show image
             #show the details
@@ -297,23 +265,6 @@ if design1=='Compare Artists':
             #displaying the image on streamlit app
             st.image(image, caption=f"{selectbox1}'s", width=800)
 
-
-            # fig_col1_radio =make_subplots(specs=[[{"secondary_y":True}]],column_widths=[600])
-            # fig_col1_radio.add_trace(go.Scatter(x=data.index, y=data.monthly_spins, mode='lines',line=dict(color='blue',width=2),name='Radio'),secondary_y=False)
-            # fig_col1_radio.add_trace(go.Scatter(x=data.index, y=data.TweetSentiment_Negative, mode='none',line=dict(color='red',width=1),name='Negative Tweet',fill='tonexty'),secondary_y=True)
-            # fig_col1_radio.add_trace(go.Scatter(x=data_album.index, y=data_album.monthly_spins, mode='markers',marker_size=7,marker_line_color="midnight blue",marker_color="lightskyblue",marker_line_width=2,name='Music Release'),secondary_y=False)
-            # fig_col1_radio.add_trace(go.Scatter(x=data_tv.index, y=data_tv.monthly_spins, mode='markers',marker_symbol="x",marker_size=10,marker_line_color="midnight blue",marker_color="red",marker_line_width=2,name='Tv Appearence'),secondary_y=False)
-
-            # fig_col1_radio.add_vline(x=datetime.strptime(js[selectbox1]["Date of Cancellation"],"%Y-%m-%d"), line_width=3, line_color="red")
-            # fig_col1_radio.update_xaxes(showgrid=False)
-            # fig_col1_radio.update_yaxes(title_text="Monthly Spins",secondary_y=False, showgrid=False)
-            # fig_col1_radio.update_yaxes(title_text="Negative tweet",secondary_y=True, showgrid=False)
-            # fig_col1_radio.update_layout(plot_bgcolor = "#FFF4F3")
-            # col1.plotly_chart(fig_col1_radio, use_container_width=False,print_grid=False)
-
-
-
-
     with col2:
 
         url = 'https://raw.githubusercontent.com/srs366/musicians_v_cancellation/master/scripts/streamlit/Artist_data.json'
@@ -341,7 +292,7 @@ if design1=='Compare Artists':
                     js[key] = js_gender[key]
 
         #create a selectbox
-        selectbox2 = st.selectbox("Select a musician", [''] + list(js.keys()),key = "one")
+        selectbox2 = st.selectbox("Select a musician", [''] + sorted(list(js.keys())),key = "one")
         if selectbox2 != '':
             prof_pic=js[selectbox2]["Image"]
 
@@ -350,11 +301,11 @@ if design1=='Compare Artists':
             text= f'''&emsp;&emsp;&emsp;<b>Name:</b> &ensp;{selectbox2}
             <br>&emsp;&emsp;&emsp;<b>Gender:</b> &ensp;{js[selectbox2]["Gender"]}
             <br>&emsp;&emsp;&emsp;<b>Race:</b> &ensp;{js[selectbox2]["Race"]}
-            <br>&emsp;&emsp;&emsp;<b>Age:</b> &ensp;{(int(js[selectbox1]['Age']))}
+            <br>&emsp;&emsp;&emsp;<b>Age:</b> &ensp;{(int(js[selectbox2]['Age']))}
             <br>&emsp;&emsp;&emsp;<b>Nationality:</b> &ensp;{js[selectbox2]["Nationality"]}
             <br>&emsp;&emsp;&emsp;<b>Debut Year:</b> &ensp;{js[selectbox2]["Debut year"]}
             <br>&emsp;&emsp;&emsp;<b>Genre:</b> &ensp;{js[selectbox2]["Genre"]}
-            <br>&emsp;&emsp;&emsp;<b>Cancellation Date:</b> <br>&emsp;&emsp;&emsp;{datetime.strptime(js[selectbox1]['Date of Cancellation'], '%Y-%m-%d').strftime('%d %B %Y')}
+            <br>&emsp;&emsp;&emsp;<b>Cancellation Date:</b> <br>&emsp;&emsp;&emsp;{datetime.strptime(js[selectbox2]['Date of Cancellation'], '%Y-%m-%d').strftime('%d %B %Y')}
             <br>&emsp;&emsp;&emsp;<b>Category:</b> &ensp;{js[selectbox2]["cancellation category"]}'''
 
             st.markdown(
@@ -424,23 +375,9 @@ if design1=='Compare Artists':
             fig_col2_spot.update_layout(plot_bgcolor = "#FFF4F3")
             col2.plotly_chart(fig_col2_spot, use_container_width=False)
 
-            image_path = f'{js[selectbox1]["CHARTMETRIC ID"]}_masked.png'
+            image_path = f'{js[selectbox2]["CHARTMETRIC ID"]}_masked.png'
             full_path = base_path.joinpath(base_path, "Images", image_path)
             image = Image.open(full_path)
 
             #displaying the image on streamlit app
-            st.image(image, caption=f"{selectbox1}'s", width=800)
-
-
-            # fig_col2_radio =make_subplots(specs=[[{"secondary_y":True}]],column_widths=[600])
-            # fig_col2_radio.add_trace(go.Scatter(x=data.index, y=data.monthly_spins, mode='lines',line=dict(color='blue',width=2),name='Radio'),secondary_y=False)
-            # fig_col2_radio.add_trace(go.Scatter(x=data.index, y=data.TweetSentiment_Negative, mode='none',line=dict(color='red',width=1),name='Negative Tweet',fill='tonexty'),secondary_y=True)
-            # fig_col2_radio.add_trace(go.Scatter(x=data_album.index, y=data_album.monthly_spins, mode='markers',marker_size=7,marker_line_color="midnight blue",marker_color="lightskyblue",marker_line_width=2,name='Music Release'),secondary_y=False)
-            # fig_col2_radio.add_trace(go.Scatter(x=data_tv.index, y=data_tv.monthly_spins, mode='markers',marker_symbol="x",marker_size=7,marker_line_color="midnight blue",marker_color="red",marker_line_width=2,name='Tv Appearence'),secondary_y=False)
-
-            # fig_col2_radio.add_vline(x=datetime.strptime(js[selectbox2]["Date of Cancellation"],"%Y-%m-%d"), line_width=3, line_color="red")
-            # fig_col2_radio.update_xaxes(showgrid=False)
-            # fig_col2_radio.update_yaxes(title_text="Monthly Spins",secondary_y=False,showgrid=False)
-            # fig_col2_radio.update_yaxes(title_text="Negative tweet",secondary_y=True,showgrid=False)
-            # fig_col2_radio.update_layout(plot_bgcolor = "#FFF4F3")
-            # col2.plotly_chart(fig_col2_radio, use_container_width=False)
+            st.image(image, caption=f"{selectbox2}'s", width=800)
