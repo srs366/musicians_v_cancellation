@@ -145,6 +145,9 @@ if design1 == 'Individual Artist':
 
 if design1=='Compare Artists':
     # js = json.load(open('Artist_data.json', encoding='utf-8'))
+
+    url = 'https://raw.githubusercontent.com/srs366/musicians_v_cancellation/master/scripts/streamlit/Artist_data.json'
+    response = requests.get(url)
     js = json.loads(response.text)
     js
     df=pd.DataFrame(js)
