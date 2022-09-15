@@ -115,31 +115,31 @@ if design1 == 'Individual Artist':
         data_album = data[data["New_Music"]==1]
         data_tv = data[data["TV_Show"]==1]
         fig_spot =make_subplots(specs=[[{"secondary_y":True}]],column_widths=[600],subplot_titles=[f"{selectbox1}'s Cancellation Data"])
-        fig_spot.add_trace(go.Scatter(x=data.index, y=data.monthly_listeners, mode='lines',line=dict(color='green',width=2),name='Spotify'),secondary_y=False)
-        fig_spot.add_trace(go.Scatter(x=data.index, y=data.TweetSentiment_Negative, mode='none',line=dict(color='red',width=1),name='Negative Tweet',fill='tonexty'),secondary_y=True)
+        fig_spot.add_trace(go.Scatter(x=data.index, y=data.monthly_listeners, mode='lines',line=dict(color='green',width=2),name='Spotify monthly listeners'),secondary_y=False)
+        fig_spot.add_trace(go.Scatter(x=data.index, y=data.TweetSentiment_Negative, mode='none',line=dict(color='red',width=1),name='Negative tweets (n)',fill='tonexty'),secondary_y=True)
         #radio line
-        fig_spot.add_trace(go.Scatter(x=data.index, y=data.monthly_spins, mode='lines',line=dict(color='#1599eb',width=1),name='Radio'),secondary_y=False)
-        fig_spot.add_trace(go.Scatter(x=data_album.index, y=data_album.monthly_listeners, mode='markers',marker_size=7,marker_line_color="midnight blue",marker_color="lightskyblue",marker_line_width=2,name='Music Release'),secondary_y=False)
-        fig_spot.add_trace(go.Scatter(x=data_tv.index, y=data_tv.monthly_listeners, mode='markers',marker_symbol="x",marker_size=7,marker_line_color="midnight blue",marker_color="red",marker_line_width=2,name='Tv Appearence'),secondary_y=False)
+        fig_spot.add_trace(go.Scatter(x=data.index, y=data.monthly_spins, mode='lines',line=dict(color='#1599eb',width=1),name='Radio plays'),secondary_y=False)
+        fig_spot.add_trace(go.Scatter(x=data_album.index, y=data_album.monthly_listeners, mode='markers',marker_size=7,marker_line_color="midnight blue",marker_color="lightskyblue",marker_line_width=2,name='Music release'),secondary_y=False)
+        fig_spot.add_trace(go.Scatter(x=data_tv.index, y=data_tv.monthly_listeners, mode='markers',marker_symbol="x",marker_size=7,marker_line_color="midnight blue",marker_color="red",marker_line_width=2,name='TV appearance'),secondary_y=False)
 
         fig_spot.add_vline(x=datetime.strptime(js[selectbox1]["Date of Cancellation"],"%Y-%m-%d"), line_width=2, line_color="red")
         fig_spot.update_xaxes(showgrid=False)
-        fig_spot.update_yaxes(title_text="Monthly listen",secondary_y=False,showgrid=False)
-        fig_spot.update_yaxes(title_text="Negative tweet",secondary_y=True,showgrid=False)
+        fig_spot.update_yaxes(title_text="Music plays (standardized)",secondary_y=False,showgrid=False)
+        fig_spot.update_yaxes(title_text="Negative tweets (n)",secondary_y=True,showgrid=False)
         fig_spot.update_layout(plot_bgcolor = "#FFF4F3")
         st.plotly_chart(fig_spot, use_container_width=True,print_grid=False)
 
 
         # fig_radio =make_subplots(specs=[[{"secondary_y":True}]],column_widths=[600])
-        # fig_radio.add_trace(go.Scatter(x=data.index, y=data.monthly_spins, mode='lines',line=dict(color='blue',width=2),name='Radio'),secondary_y=False)
-        # fig_radio.add_trace(go.Scatter(x=data.index, y=data.TweetSentiment_Negative, mode='none',line=dict(color='red',width=1),name='Negative Tweet',fill='tonexty'),secondary_y=True)
-        # fig_radio.add_trace(go.Scatter(x=data_album.index, y=data_album.monthly_spins, mode='markers',marker_size=7,marker_line_color="midnight blue",marker_color="lightskyblue",marker_line_width=2,name='Music Release'),secondary_y=False)
-        # fig_radio.add_trace(go.Scatter(x=data_tv.index, y=data_tv.monthly_spins, mode='markers',marker_symbol="x",marker_size=7,marker_line_color="midnight blue",marker_color="red",marker_line_width=2,name='Tv Appearence'),secondary_y=False)
+        # fig_radio.add_trace(go.Scatter(x=data.index, y=data.monthly_spins, mode='lines',line=dict(color='blue',width=2),name='Radio plays'),secondary_y=False)
+        # fig_radio.add_trace(go.Scatter(x=data.index, y=data.TweetSentiment_Negative, mode='none',line=dict(color='red',width=1),name='Negative tweets (n)',fill='tonexty'),secondary_y=True)
+        # fig_radio.add_trace(go.Scatter(x=data_album.index, y=data_album.monthly_spins, mode='markers',marker_size=7,marker_line_color="midnight blue",marker_color="lightskyblue",marker_line_width=2,name='Music release'),secondary_y=False)
+        # fig_radio.add_trace(go.Scatter(x=data_tv.index, y=data_tv.monthly_spins, mode='markers',marker_symbol="x",marker_size=7,marker_line_color="midnight blue",marker_color="red",marker_line_width=2,name='TV appearance'),secondary_y=False)
 
         # fig_radio.add_vline(x=datetime.strptime(js[selectbox1]["Date of Cancellation"],"%Y-%m-%d"), line_width=3, line_color="red")
         # fig_radio.update_xaxes(showgrid=False)
         # fig_radio.update_yaxes(title_text="Monthly Spins",secondary_y=False, showgrid=False)
-        # fig_radio.update_yaxes(title_text="Negative tweet",secondary_y=True, showgrid=False)
+        # fig_radio.update_yaxes(title_text="Negative tweets (n)",secondary_y=True, showgrid=False)
         # fig_radio.update_layout(plot_bgcolor = "#FFF4F3")
         # st.plotly_chart(fig_radio, use_container_width=False,print_grid=False)
 
@@ -221,31 +221,31 @@ if design1=='Compare Artists':
             data_album = data[data["New_Music"]==1]
             data_tv = data[data["TV_Show"]==1]
             fig_col1_spot =make_subplots(specs=[[{"secondary_y":True}]],column_widths=[600],subplot_titles=[f"{selectbox1}'s Cancellation Data"])
-            fig_col1_spot.add_trace(go.Scatter(x=data.index, y=data.monthly_listeners, mode='lines',line=dict(color='green',width=2),name='Spotify'),secondary_y=False)
-            fig_col1_spot.add_trace(go.Scatter(x=data.index, y=data.TweetSentiment_Negative, mode='none',line=dict(color='red',width=1),name='Negative Tweet',fill='tonexty'),secondary_y=True)
+            fig_col1_spot.add_trace(go.Scatter(x=data.index, y=data.monthly_listeners, mode='lines',line=dict(color='green',width=2),name='Spotify monthly listeners'),secondary_y=False)
+            fig_col1_spot.add_trace(go.Scatter(x=data.index, y=data.TweetSentiment_Negative, mode='none',line=dict(color='red',width=1),name='Negative tweets (n)',fill='tonexty'),secondary_y=True)
             #radio line
-            fig_col1_spot.add_trace(go.Scatter(x=data.index, y=data.monthly_spins, mode='lines',line=dict(color='#1599eb',width=1),name='Radio'),secondary_y=False)
-            fig_col1_spot.add_trace(go.Scatter(x=data_album.index, y=data_album.monthly_listeners, mode='markers',marker_size=7,marker_line_color="midnight blue",marker_color="lightskyblue",marker_line_width=2,name='Music Release'),secondary_y=False)
-            fig_col1_spot.add_trace(go.Scatter(x=data_tv.index, y=data_tv.monthly_listeners, mode='markers',marker_symbol="x",marker_size=10,marker_line_color="midnight blue",marker_color="red",marker_line_width=2,name='Tv Appearence'),secondary_y=False)
+            fig_col1_spot.add_trace(go.Scatter(x=data.index, y=data.monthly_spins, mode='lines',line=dict(color='#1599eb',width=1),name='Radio plays'),secondary_y=False)
+            fig_col1_spot.add_trace(go.Scatter(x=data_album.index, y=data_album.monthly_listeners, mode='markers',marker_size=7,marker_line_color="midnight blue",marker_color="lightskyblue",marker_line_width=2,name='Music release'),secondary_y=False)
+            fig_col1_spot.add_trace(go.Scatter(x=data_tv.index, y=data_tv.monthly_listeners, mode='markers',marker_symbol="x",marker_size=10,marker_line_color="midnight blue",marker_color="red",marker_line_width=2,name='TV appearance'),secondary_y=False)
 
             fig_col1_spot.add_vline(x=datetime.strptime(js[selectbox1]["Date of Cancellation"],"%Y-%m-%d"), line_width=2, line_color="red")
             fig_col1_spot.update_xaxes(showgrid=False)
-            fig_col1_spot.update_yaxes(title_text="Monthly listen",secondary_y=False,showgrid=False)
-            fig_col1_spot.update_yaxes(title_text="Negative tweet",secondary_y=True,showgrid=False)
+            fig_col1_spot.update_yaxes(title_text="Music plays (standardized)",secondary_y=False,showgrid=False)
+            fig_col1_spot.update_yaxes(title_text="Negative tweets (n)",secondary_y=True,showgrid=False)
             fig_col1_spot.update_layout(plot_bgcolor = "#FFF4F3")
             col1.plotly_chart(fig_col1_spot, use_container_width=False,print_grid=False)
 
 
             # fig_col1_radio =make_subplots(specs=[[{"secondary_y":True}]],column_widths=[600])
-            # fig_col1_radio.add_trace(go.Scatter(x=data.index, y=data.monthly_spins, mode='lines',line=dict(color='blue',width=2),name='Radio'),secondary_y=False)
-            # fig_col1_radio.add_trace(go.Scatter(x=data.index, y=data.TweetSentiment_Negative, mode='none',line=dict(color='red',width=1),name='Negative Tweet',fill='tonexty'),secondary_y=True)
-            # fig_col1_radio.add_trace(go.Scatter(x=data_album.index, y=data_album.monthly_spins, mode='markers',marker_size=7,marker_line_color="midnight blue",marker_color="lightskyblue",marker_line_width=2,name='Music Release'),secondary_y=False)
-            # fig_col1_radio.add_trace(go.Scatter(x=data_tv.index, y=data_tv.monthly_spins, mode='markers',marker_symbol="x",marker_size=10,marker_line_color="midnight blue",marker_color="red",marker_line_width=2,name='Tv Appearence'),secondary_y=False)
+            # fig_col1_radio.add_trace(go.Scatter(x=data.index, y=data.monthly_spins, mode='lines',line=dict(color='blue',width=2),name='Radio plays'),secondary_y=False)
+            # fig_col1_radio.add_trace(go.Scatter(x=data.index, y=data.TweetSentiment_Negative, mode='none',line=dict(color='red',width=1),name='Negative tweets (n)',fill='tonexty'),secondary_y=True)
+            # fig_col1_radio.add_trace(go.Scatter(x=data_album.index, y=data_album.monthly_spins, mode='markers',marker_size=7,marker_line_color="midnight blue",marker_color="lightskyblue",marker_line_width=2,name='Music release'),secondary_y=False)
+            # fig_col1_radio.add_trace(go.Scatter(x=data_tv.index, y=data_tv.monthly_spins, mode='markers',marker_symbol="x",marker_size=10,marker_line_color="midnight blue",marker_color="red",marker_line_width=2,name='TV appearance'),secondary_y=False)
 
             # fig_col1_radio.add_vline(x=datetime.strptime(js[selectbox1]["Date of Cancellation"],"%Y-%m-%d"), line_width=3, line_color="red")
             # fig_col1_radio.update_xaxes(showgrid=False)
             # fig_col1_radio.update_yaxes(title_text="Monthly Spins",secondary_y=False, showgrid=False)
-            # fig_col1_radio.update_yaxes(title_text="Negative tweet",secondary_y=True, showgrid=False)
+            # fig_col1_radio.update_yaxes(title_text="Negative tweets (n)",secondary_y=True, showgrid=False)
             # fig_col1_radio.update_layout(plot_bgcolor = "#FFF4F3")
             # col1.plotly_chart(fig_col1_radio, use_container_width=False,print_grid=False)
 
@@ -322,31 +322,31 @@ if design1=='Compare Artists':
             data_tv = data[data["TV_Show"]==1]
             fig_col2_spot =make_subplots(specs=[[{"secondary_y":True}]],column_widths=[600],subplot_titles=[f"{selectbox2}'s Cancellation Data"])
 
-            fig_col2_spot.add_trace(go.Scatter(x=data.index, y=data.monthly_listeners, mode='lines',line=dict(color='green',width=2),name='Spotify'),secondary_y=False)
-            fig_col2_spot.add_trace(go.Scatter(x=data.index, y=data.TweetSentiment_Negative, mode='none',line=dict(color='red',width=1),name='Negative Tweet',fill='tonexty'),secondary_y=True)
+            fig_col2_spot.add_trace(go.Scatter(x=data.index, y=data.monthly_listeners, mode='lines',line=dict(color='green',width=2),name='Spotify monthly listeners'),secondary_y=False)
+            fig_col2_spot.add_trace(go.Scatter(x=data.index, y=data.TweetSentiment_Negative, mode='none',line=dict(color='red',width=1),name='Negative tweets (n)',fill='tonexty'),secondary_y=True)
             # radio line
-            fig_col2_spot.add_trace(go.Scatter(x=data.index, y=data.monthly_spins, mode='lines',line=dict(color='#1599eb',width=1),name='Radio'),secondary_y=False)
-            fig_col2_spot.add_trace(go.Scatter(x=data_album.index, y=data_album.monthly_listeners, mode='markers',marker_size=7,marker_line_color="midnight blue",marker_color="lightskyblue",marker_line_width=2,name='Music Release'),secondary_y=False)
-            fig_col2_spot.add_trace(go.Scatter(x=data_tv.index, y=data_tv.monthly_listeners, mode='markers',marker_symbol="x",marker_size=7,marker_line_color="midnight blue",marker_color="red",marker_line_width=2,name='Tv Appearence'),secondary_y=False)
+            fig_col2_spot.add_trace(go.Scatter(x=data.index, y=data.monthly_spins, mode='lines',line=dict(color='#1599eb',width=1),name='Radio plays'),secondary_y=False)
+            fig_col2_spot.add_trace(go.Scatter(x=data_album.index, y=data_album.monthly_listeners, mode='markers',marker_size=7,marker_line_color="midnight blue",marker_color="lightskyblue",marker_line_width=2,name='Music release'),secondary_y=False)
+            fig_col2_spot.add_trace(go.Scatter(x=data_tv.index, y=data_tv.monthly_listeners, mode='markers',marker_symbol="x",marker_size=7,marker_line_color="midnight blue",marker_color="red",marker_line_width=2,name='TV appearance'),secondary_y=False)
 
 
             fig_col2_spot.add_vline(x=datetime.strptime(js[selectbox2]["Date of Cancellation"],"%Y-%m-%d"), line_width=3, line_color="red")
             fig_col2_spot.update_xaxes(showgrid=False)
-            fig_col2_spot.update_yaxes(title_text="Monthly listen",secondary_y=False,showgrid=False)
-            fig_col2_spot.update_yaxes(title_text="Negative tweet",secondary_y=True,showgrid=False)
+            fig_col2_spot.update_yaxes(title_text="Music plays (standardized)",secondary_y=False,showgrid=False)
+            fig_col2_spot.update_yaxes(title_text="Negative tweets (n)",secondary_y=True,showgrid=False)
             fig_col2_spot.update_layout(plot_bgcolor = "#FFF4F3")
             col2.plotly_chart(fig_col2_spot, use_container_width=False)
 
 
             # fig_col2_radio =make_subplots(specs=[[{"secondary_y":True}]],column_widths=[600])
-            # fig_col2_radio.add_trace(go.Scatter(x=data.index, y=data.monthly_spins, mode='lines',line=dict(color='blue',width=2),name='Radio'),secondary_y=False)
-            # fig_col2_radio.add_trace(go.Scatter(x=data.index, y=data.TweetSentiment_Negative, mode='none',line=dict(color='red',width=1),name='Negative Tweet',fill='tonexty'),secondary_y=True)
-            # fig_col2_radio.add_trace(go.Scatter(x=data_album.index, y=data_album.monthly_spins, mode='markers',marker_size=7,marker_line_color="midnight blue",marker_color="lightskyblue",marker_line_width=2,name='Music Release'),secondary_y=False)
-            # fig_col2_radio.add_trace(go.Scatter(x=data_tv.index, y=data_tv.monthly_spins, mode='markers',marker_symbol="x",marker_size=7,marker_line_color="midnight blue",marker_color="red",marker_line_width=2,name='Tv Appearence'),secondary_y=False)
+            # fig_col2_radio.add_trace(go.Scatter(x=data.index, y=data.monthly_spins, mode='lines',line=dict(color='blue',width=2),name='Radio plays'),secondary_y=False)
+            # fig_col2_radio.add_trace(go.Scatter(x=data.index, y=data.TweetSentiment_Negative, mode='none',line=dict(color='red',width=1),name='Negative tweets (n)',fill='tonexty'),secondary_y=True)
+            # fig_col2_radio.add_trace(go.Scatter(x=data_album.index, y=data_album.monthly_spins, mode='markers',marker_size=7,marker_line_color="midnight blue",marker_color="lightskyblue",marker_line_width=2,name='Music release'),secondary_y=False)
+            # fig_col2_radio.add_trace(go.Scatter(x=data_tv.index, y=data_tv.monthly_spins, mode='markers',marker_symbol="x",marker_size=7,marker_line_color="midnight blue",marker_color="red",marker_line_width=2,name='TV appearance'),secondary_y=False)
 
             # fig_col2_radio.add_vline(x=datetime.strptime(js[selectbox2]["Date of Cancellation"],"%Y-%m-%d"), line_width=3, line_color="red")
             # fig_col2_radio.update_xaxes(showgrid=False)
             # fig_col2_radio.update_yaxes(title_text="Monthly Spins",secondary_y=False,showgrid=False)
-            # fig_col2_radio.update_yaxes(title_text="Negative tweet",secondary_y=True,showgrid=False)
+            # fig_col2_radio.update_yaxes(title_text="Negative tweets (n)",secondary_y=True,showgrid=False)
             # fig_col2_radio.update_layout(plot_bgcolor = "#FFF4F3")
             # col2.plotly_chart(fig_col2_radio, use_container_width=False)
