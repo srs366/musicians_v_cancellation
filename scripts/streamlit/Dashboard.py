@@ -149,7 +149,7 @@ if design1=='Compare Artists':
     url = 'https://raw.githubusercontent.com/srs366/musicians_v_cancellation/master/scripts/streamlit/Artist_data.json'
     response = requests.get(url)
     js = json.loads(response.text)
-    js
+    # js
     df=pd.DataFrame(js)
     #create dropdown menu in 2 columns
     col1, col2 = st.columns(2)
@@ -312,7 +312,12 @@ if design1=='Compare Artists':
             ''',
             unsafe_allow_html=True)
 
-            data = pd.read_csv(f'{js[selectbox2]["CHARTMETRIC ID"]}_merged_data.csv', parse_dates=[0], index_col=0)
+            base_path = pathlib.Path(__file__).resolve().parent
+            artist_path = f'{js[selectbox2]["CHARTMETRIC ID"]}_merged_data.csv'
+            full_path = base_path.joinpath(base_path, "streamlit_data", artist_path)
+            data = pd.read_csv(full_path, parse_dates=[0], index_col=0)
+
+            # data = pd.read_csv(f'{js[selectbox2]["CHARTMETRIC ID"]}_merged_data.csv', parse_dates=[0], index_col=0)
             data_album = data[data["New_Music"]==1]
             data_tv = data[data["TV_Show"]==1]
             fig_col2_spot =make_subplots(specs=[[{"secondary_y":True}]],column_widths=[600],subplot_titles=[f"{selectbox2}'s Cancellation Data"])
