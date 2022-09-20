@@ -6,6 +6,7 @@ wheel>=0.29
 
 # streamlit
 plotly
+PIL
 
 # data science
 numpy
