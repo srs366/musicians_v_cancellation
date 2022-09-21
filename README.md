@@ -1,10 +1,19 @@
 # Data analysis
-- Document here the project: musicians_v_cancellation
-- Description: Project Description
-- Data Source:
-- Type of analysis:
-
-Please document the project the better you can.
+- PROJECT NAME: Musicians vs. Cancel Culture
+- WHAT OUR PROJECT SETS OUT TO DO:
+  - Utilised Python, Pandas, Numpy, Matplotlib, Seaborn, Google Cloud, Jupyter Notebook, continuing with RNN, SARIMA, Facebook Prophet, SQL
+  - In a team of 4, analysed data comparing musician's listening metrics with public sentiment towards that musician, to see whether backlash would affect consumption of their art.
+  - Assumed position of team leader and assigned tasks to teammates.
+  - Manually identified 48 artists deemed as cancelled by Twitter.
+  - Scraped tweets to then assess their sentiment, utilising Twitter API, a pre-built scraper, and a pre-trained sentiment model to do so.
+  - Utilised Chartmetric API to collect artist's daily listeners, radio spins.
+  - Stored, cleaned, manipulated datasets containing Tweets, listening metrics for over a years worth of data.
+  - Utilising Pandas, MatPlotLib, and Seaborn, graphed and visualised results via Streamlit dashboard.
+  - Utilised NLP and NLTK to create wordclouds surrounding artist backlash.
+  - Stored data in Google Cloud via buckets.
+  - Packaged functions within VS code whilst testing code in Jupyter Notebooks.
+  - Now looking to use SARIMA to create machine learning model, RNN to predict artists' listening trends had they not been "cancelled."
+  - Now looking to use Facebook Prophet to predict artists' listening trends as mentioned above.
 
 # Startup the project
 
