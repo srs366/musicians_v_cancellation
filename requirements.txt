@@ -5,6 +5,7 @@ twine
 wheel>=0.29
 
 # streamlit
+streamlit
 plotly
 Pillow
 
