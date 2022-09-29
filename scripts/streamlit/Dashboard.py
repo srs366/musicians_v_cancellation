@@ -145,7 +145,16 @@ if design1 == 'Individual Artist':
         image = Image.open(full_path)
 
         #displaying the image on streamlit app
-        st.image(image, caption=f"{selectbox1}'s", width=500)
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.write(' ')
+
+        with col2:
+            st.image(image, caption=f"{selectbox1}'s", width=500)
+
+        with col3:
+            st.write(' ')
 
 if design1=='Compare Artists':
 
