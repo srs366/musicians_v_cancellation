@@ -67,17 +67,17 @@ def dataframe_pipeline(df):
                        , artist_type=cancelled)
 
 
-def neg_tweet_data(df):
+# def neg_tweet_data(df):
 
-    tweets_black_pre =
-    tweets_black_post =
+#     tweets_black_pre =
+#     tweets_black_post =
 
-    tweets_white_pre =
-    tweets_white_post =
+#     tweets_white_pre =
+#     tweets_white_post =
 
 
-    for artist_id, incident_date, artist, cancelled in zip(df['CHARTMETRIC ID']
-                                                , df['DATE OF CANCELLATION']
-                                                , df['ARTIST']
-                                                , df['CANCELLED']
-                                                , df['RACE']):
+#     for artist_id, incident_date, artist, cancelled in zip(df['CHARTMETRIC ID']
+#                                                 , df['DATE OF CANCELLATION']
+#                                                 , df['ARTIST']
+#                                                 , df['CANCELLED']
+#                                                 , df['RACE']):
